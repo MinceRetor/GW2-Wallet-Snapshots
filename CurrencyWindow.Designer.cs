@@ -46,9 +46,11 @@
             CurrencyDataGridView.Dock = DockStyle.Fill;
             CurrencyDataGridView.Location = new Point(0, 0);
             CurrencyDataGridView.Name = "CurrencyDataGridView";
+            CurrencyDataGridView.RowHeadersVisible = false;
             CurrencyDataGridView.RowTemplate.Height = 50;
             CurrencyDataGridView.Size = new Size(1184, 450);
             CurrencyDataGridView.TabIndex = 0;
+            CurrencyDataGridView.SelectionChanged += CurrencyDataGridView_SelectionChanged;
             // 
             // ColumnID
             // 
@@ -93,7 +95,7 @@
             ClientSize = new Size(1184, 450);
             Controls.Add(CurrencyDataGridView);
             Name = "CurrencyWindow";
-            Text = "CurrencyWindow";
+            Text = "Currencies";
             Load += CurrencyWindow_Load;
             ((System.ComponentModel.ISupportInitialize)CurrencyDataGridView).EndInit();
             ResumeLayout(false);

@@ -35,7 +35,7 @@ namespace GW2_Wallet_Snapshots
         }
 
         public static ProgramConfig Config { get; set; } = new();
-        public static SnapshotsData Data { get; set; } = new();
+        public static SnapshotsFile Data { get; set; } = new();
         public static string? CurrentFile { get; set; } = null;
     }
 }

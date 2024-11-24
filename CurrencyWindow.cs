@@ -24,10 +24,15 @@ namespace GW2_Wallet_Snapshots
         {
             CurrencyDataGridView.Rows.Clear();
 
-            foreach(GW2Currency currency in GW2API.GetCurrencies())
+            foreach (GW2Currency currency in GW2API.GetCurrencies())
             {
                 CurrencyDataGridView.Rows.Add(currency.ID, currency.Order, currency.Icon, currency.Name, currency.Description);
             }
+        }
+
+        private void CurrencyDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            CurrencyDataGridView.ClearSelection();
         }
     }
 }

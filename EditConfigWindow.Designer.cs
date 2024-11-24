@@ -28,76 +28,80 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.api_key_textbox = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.APIKeyLabel = new System.Windows.Forms.Label();
-            this.EditConfigSaveButton = new System.Windows.Forms.Button();
-            this.SavedLabel = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            api_key_textbox = new TextBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            contextMenuStrip2 = new ContextMenuStrip(components);
+            APIKeyLabel = new Label();
+            EditConfigSaveButton = new Button();
+            SavedLabel = new Label();
+            SuspendLayout();
             // 
             // api_key_textbox
             // 
-            this.api_key_textbox.Location = new System.Drawing.Point(61, 27);
-            this.api_key_textbox.Name = "api_key_textbox";
-            this.api_key_textbox.Size = new System.Drawing.Size(447, 20);
-            this.api_key_textbox.TabIndex = 0;
+            api_key_textbox.Location = new Point(71, 31);
+            api_key_textbox.Margin = new Padding(4, 3, 4, 3);
+            api_key_textbox.Name = "api_key_textbox";
+            api_key_textbox.Size = new Size(521, 23);
+            api_key_textbox.TabIndex = 0;
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
             // 
             // contextMenuStrip2
             // 
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            contextMenuStrip2.Name = "contextMenuStrip2";
+            contextMenuStrip2.Size = new Size(61, 4);
             // 
             // APIKeyLabel
             // 
-            this.APIKeyLabel.AutoSize = true;
-            this.APIKeyLabel.Location = new System.Drawing.Point(10, 27);
-            this.APIKeyLabel.Name = "APIKeyLabel";
-            this.APIKeyLabel.Size = new System.Drawing.Size(45, 13);
-            this.APIKeyLabel.TabIndex = 3;
-            this.APIKeyLabel.Text = "API Key";
+            APIKeyLabel.AutoSize = true;
+            APIKeyLabel.Location = new Point(12, 31);
+            APIKeyLabel.Margin = new Padding(4, 0, 4, 0);
+            APIKeyLabel.Name = "APIKeyLabel";
+            APIKeyLabel.Size = new Size(47, 15);
+            APIKeyLabel.TabIndex = 3;
+            APIKeyLabel.Text = "API Key";
             // 
             // EditConfigSaveButton
             // 
-            this.EditConfigSaveButton.Location = new System.Drawing.Point(61, 87);
-            this.EditConfigSaveButton.Name = "EditConfigSaveButton";
-            this.EditConfigSaveButton.Size = new System.Drawing.Size(369, 73);
-            this.EditConfigSaveButton.TabIndex = 4;
-            this.EditConfigSaveButton.Text = "Save";
-            this.EditConfigSaveButton.UseVisualStyleBackColor = true;
-            this.EditConfigSaveButton.Click += new System.EventHandler(this.EditConfigSaveButton_Click);
+            EditConfigSaveButton.Location = new Point(71, 100);
+            EditConfigSaveButton.Margin = new Padding(4, 3, 4, 3);
+            EditConfigSaveButton.Name = "EditConfigSaveButton";
+            EditConfigSaveButton.Size = new Size(430, 84);
+            EditConfigSaveButton.TabIndex = 4;
+            EditConfigSaveButton.Text = "Save";
+            EditConfigSaveButton.UseVisualStyleBackColor = true;
+            EditConfigSaveButton.Click += EditConfigSaveButton_Click;
             // 
             // SavedLabel
             // 
-            this.SavedLabel.AutoSize = true;
-            this.SavedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.SavedLabel.Location = new System.Drawing.Point(198, 198);
-            this.SavedLabel.Name = "SavedLabel";
-            this.SavedLabel.Size = new System.Drawing.Size(91, 31);
-            this.SavedLabel.TabIndex = 5;
-            this.SavedLabel.Text = "Saved";
+            SavedLabel.AutoSize = true;
+            SavedLabel.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point, 238);
+            SavedLabel.Location = new Point(231, 228);
+            SavedLabel.Margin = new Padding(4, 0, 4, 0);
+            SavedLabel.Name = "SavedLabel";
+            SavedLabel.Size = new Size(91, 31);
+            SavedLabel.TabIndex = 5;
+            SavedLabel.Text = "Saved";
             // 
             // EditConfigWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 264);
-            this.Controls.Add(this.SavedLabel);
-            this.Controls.Add(this.EditConfigSaveButton);
-            this.Controls.Add(this.APIKeyLabel);
-            this.Controls.Add(this.api_key_textbox);
-            this.Name = "EditConfigWindow";
-            this.Text = "EditConfigWindow";
-            this.Load += new System.EventHandler(this.EditConfigWindow_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(609, 305);
+            Controls.Add(SavedLabel);
+            Controls.Add(EditConfigSaveButton);
+            Controls.Add(APIKeyLabel);
+            Controls.Add(api_key_textbox);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "EditConfigWindow";
+            Text = "Edit Config";
+            Load += EditConfigWindow_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

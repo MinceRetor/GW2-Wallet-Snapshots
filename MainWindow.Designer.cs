@@ -49,9 +49,11 @@
             CurrencyName = new DataGridViewTextBoxColumn();
             CurrencyValue = new DataGridViewTextBoxColumn();
             CurrencyChange = new DataGridViewTextBoxColumn();
+            tableLayoutPanel1 = new TableLayoutPanel();
             MainWindowToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)WalletDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SnapshotDetailsDataGridView).BeginInit();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // FileDropDownButton
@@ -67,28 +69,28 @@
             // FileNewButton
             // 
             FileNewButton.Name = "FileNewButton";
-            FileNewButton.Size = new Size(180, 22);
+            FileNewButton.Size = new Size(114, 22);
             FileNewButton.Text = "New";
             FileNewButton.Click += FileNewButton_Click;
             // 
             // FileLoadButton
             // 
             FileLoadButton.Name = "FileLoadButton";
-            FileLoadButton.Size = new Size(180, 22);
+            FileLoadButton.Size = new Size(114, 22);
             FileLoadButton.Text = "Load";
             FileLoadButton.Click += FileLoadButton_Click;
             // 
             // FileSaveButton
             // 
             FileSaveButton.Name = "FileSaveButton";
-            FileSaveButton.Size = new Size(180, 22);
+            FileSaveButton.Size = new Size(114, 22);
             FileSaveButton.Text = "Save";
             FileSaveButton.Click += FileSaveButton_Click;
             // 
             // FileSaveAsButton
             // 
             FileSaveAsButton.Name = "FileSaveAsButton";
-            FileSaveAsButton.Size = new Size(180, 22);
+            FileSaveAsButton.Size = new Size(114, 22);
             FileSaveAsButton.Text = "Save As";
             FileSaveAsButton.Click += FileSaveAsButton_Click;
             // 
@@ -114,7 +116,7 @@
             MainWindowToolStrip.Items.AddRange(new ToolStripItem[] { FileDropDownButton, EditDropDownButton, ViewDropDownButton, CreateSnapshotButton });
             MainWindowToolStrip.Location = new Point(0, 0);
             MainWindowToolStrip.Name = "MainWindowToolStrip";
-            MainWindowToolStrip.Size = new Size(1184, 25);
+            MainWindowToolStrip.Size = new Size(984, 25);
             MainWindowToolStrip.TabIndex = 2;
             MainWindowToolStrip.Text = "toolStrip1";
             // 
@@ -151,19 +153,20 @@
             // 
             WalletDataGridView.AllowUserToAddRows = false;
             WalletDataGridView.AllowUserToDeleteRows = false;
+            WalletDataGridView.AllowUserToResizeRows = false;
             WalletDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            WalletDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             WalletDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             WalletDataGridView.Columns.AddRange(new DataGridViewColumn[] { Column1, Time, Description });
             WalletDataGridView.Dock = DockStyle.Fill;
-            WalletDataGridView.Location = new Point(0, 25);
+            WalletDataGridView.Location = new Point(4, 3);
             WalletDataGridView.Margin = new Padding(4, 3, 4, 3);
             WalletDataGridView.MultiSelect = false;
             WalletDataGridView.Name = "WalletDataGridView";
             WalletDataGridView.ReadOnly = true;
+            WalletDataGridView.RowHeadersVisible = false;
             WalletDataGridView.RowTemplate.ReadOnly = true;
             WalletDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            WalletDataGridView.Size = new Size(1184, 536);
+            WalletDataGridView.Size = new Size(484, 430);
             WalletDataGridView.TabIndex = 1;
             WalletDataGridView.Click += WalletDataGridView_Click;
             // 
@@ -194,26 +197,33 @@
             // 
             SnapshotDetailsDataGridView.AllowUserToAddRows = false;
             SnapshotDetailsDataGridView.AllowUserToDeleteRows = false;
+            SnapshotDetailsDataGridView.AllowUserToResizeRows = false;
+            SnapshotDetailsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             SnapshotDetailsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             SnapshotDetailsDataGridView.Columns.AddRange(new DataGridViewColumn[] { CurrencyIcon, CurrencyName, CurrencyValue, CurrencyChange });
-            SnapshotDetailsDataGridView.Dock = DockStyle.Bottom;
-            SnapshotDetailsDataGridView.Location = new Point(0, 309);
+            SnapshotDetailsDataGridView.Dock = DockStyle.Fill;
+            SnapshotDetailsDataGridView.Location = new Point(495, 3);
             SnapshotDetailsDataGridView.MultiSelect = false;
             SnapshotDetailsDataGridView.Name = "SnapshotDetailsDataGridView";
             SnapshotDetailsDataGridView.ReadOnly = true;
+            SnapshotDetailsDataGridView.RowHeadersVisible = false;
             SnapshotDetailsDataGridView.RowTemplate.Height = 40;
             SnapshotDetailsDataGridView.RowTemplate.ReadOnly = true;
             SnapshotDetailsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            SnapshotDetailsDataGridView.Size = new Size(1184, 252);
+            SnapshotDetailsDataGridView.Size = new Size(486, 430);
             SnapshotDetailsDataGridView.TabIndex = 3;
+            SnapshotDetailsDataGridView.SelectionChanged += SnapshotDetailsDataGridView_SelectionChanged;
             // 
             // CurrencyIcon
             // 
+            CurrencyIcon.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             CurrencyIcon.HeaderText = "Icon";
             CurrencyIcon.ImageLayout = DataGridViewImageCellLayout.Stretch;
+            CurrencyIcon.MinimumWidth = 15;
             CurrencyIcon.Name = "CurrencyIcon";
             CurrencyIcon.ReadOnly = true;
-            CurrencyIcon.Width = 40;
+            CurrencyIcon.Resizable = DataGridViewTriState.False;
+            CurrencyIcon.Width = 35;
             // 
             // CurrencyName
             // 
@@ -236,24 +246,40 @@
             CurrencyChange.Name = "CurrencyChange";
             CurrencyChange.ReadOnly = true;
             // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(WalletDataGridView, 0, 0);
+            tableLayoutPanel1.Controls.Add(SnapshotDetailsDataGridView, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 25);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(984, 436);
+            tableLayoutPanel1.TabIndex = 4;
+            // 
             // MainWindow
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(1184, 561);
-            Controls.Add(SnapshotDetailsDataGridView);
-            Controls.Add(WalletDataGridView);
+            ClientSize = new Size(984, 461);
+            Controls.Add(tableLayoutPanel1);
             Controls.Add(MainWindowToolStrip);
             Margin = new Padding(4, 3, 4, 3);
-            MinimumSize = new Size(800, 600);
+            MinimumSize = new Size(400, 400);
             Name = "MainWindow";
             Text = "GW2 Wallet Snapshots";
+            DragDrop += MainWindow_DragDrop;
             MainWindowToolStrip.ResumeLayout(false);
             MainWindowToolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)WalletDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)SnapshotDetailsDataGridView).EndInit();
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -275,6 +301,7 @@
         private DataGridViewTextBoxColumn Time;
         private DataGridViewTextBoxColumn Description;
         private DataGridView SnapshotDetailsDataGridView;
+        private TableLayoutPanel tableLayoutPanel1;
         private DataGridViewImageColumn CurrencyIcon;
         private DataGridViewTextBoxColumn CurrencyName;
         private DataGridViewTextBoxColumn CurrencyValue;

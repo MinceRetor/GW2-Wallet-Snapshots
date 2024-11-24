@@ -11,6 +11,9 @@ namespace GW2_Wallet_Snapshots
 {
     internal class Utilities
     {
+        public static string? LastSerializeJsonError { get; private set; } = null;
+        public static string? LastDeserializeJsonError { get; private set; } = null;
+
         public static void EnableDoubleBufferingForDataGridView(DataGridView p_datagridview)
         {
             typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, p_datagridview, new object[] { true });
@@ -20,7 +23,10 @@ namespace GW2_Wallet_Snapshots
         {
             try
             {
-                string json = JsonSerializer.Serialize(p_object);
+                JsonSerializerOptions options = new();
+                options.WriteIndented = true;
+
+                string json = JsonSerializer.Serialize(p_object, options);
 
                 StreamWriter writer = new(p_stream);
 
@@ -28,10 +34,12 @@ namespace GW2_Wallet_Snapshots
                 writer.Flush();
                 writer.Close();
 
+                LastSerializeJsonError = null;
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                LastSerializeJsonError = e.Message;
                 return false;
             }
         }
@@ -40,10 +48,18 @@ namespace GW2_Wallet_Snapshots
         {
             try
             {
-                return SerializeJsonToStream(p_object, File.Open(p_path, FileMode.CreateNew));
+                FileStream filestream = File.Open(p_path, FileMode.Create);
+
+                bool result = SerializeJsonToStream(p_object, filestream);
+
+                filestream.Close();
+
+                LastSerializeJsonError = null;
+                return result;
             }
-            catch 
+            catch (Exception e)
             {
+                LastSerializeJsonError = e.Message;
                 return false;
             }
         }
@@ -52,18 +68,19 @@ namespace GW2_Wallet_Snapshots
         {
             try
             {
-                StreamReader reader = new StreamReader(p_stream);
+                using(StreamReader reader = new(p_stream))
+                {
+                    string json = reader.ReadToEnd();
 
-                string json = reader.ReadToEnd();
+                    reader.Close();
 
-                reader.Close();
-
-                T? deserialized_object = JsonSerializer.Deserialize<T>(json);
-
-                return deserialized_object;
+                    LastDeserializeJsonError = null;
+                    return JsonSerializer.Deserialize<T>(json);
+                }
             }
-            catch
+            catch (Exception e)
             {
+                LastDeserializeJsonError = e.Message;
                 return default(T);
             }
         }
@@ -72,10 +89,22 @@ namespace GW2_Wallet_Snapshots
         {
             try
             {
-                return DeserializeJsonFromStream<T>(File.Open(p_path, System.IO.FileMode.Open));
+                FileStream filestream = File.Open(p_path, System.IO.FileMode.Open);
+
+                T? result = DeserializeJsonFromStream<T>(filestream);
+
+                filestream.Close();
+
+                if(result != null)
+                {
+                    LastDeserializeJsonError = null;
+                }
+
+                return result;
             }
-            catch
+            catch (Exception e)
             {
+                LastDeserializeJsonError = e.Message;
                 return default(T);
             }
         }

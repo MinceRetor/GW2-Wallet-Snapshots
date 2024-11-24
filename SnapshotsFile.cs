@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace GW2_Wallet_Snapshots
 {
-    internal class SnapshotsData
+    internal class SnapshotsFile
     {
         public string User { get; set; } = "";
 
-        public List<GW2WalletSnapshot> Snapshots { get; set; } = [];
+        public List<WalletSnapshot> Snapshots { get; set; } = [];
 
         public bool Load(string p_path)
         {
             Clear();
 
-            SnapshotsData? deserialized_data = Utilities.DeserializeJsonFromFile<SnapshotsData>(p_path);
+            SnapshotsFile? deserialized_data = Utilities.DeserializeJsonFromFile<SnapshotsFile>(p_path);
 
             if (deserialized_data == null)
             {

@@ -8,6 +8,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace GW2_Wallet_Snapshots
 {
@@ -19,6 +20,15 @@ namespace GW2_Wallet_Snapshots
 
         private static GW2Currency[]? _currencies = null;
         private static Dictionary<uint, GW2Currency> _currencies_dictionary = [];
+
+        private class GW2WalletCurrencyState
+        {
+            [JsonPropertyName("id")]
+            public uint ID { get; set; } = 0;
+
+            [JsonPropertyName("value")]
+            public uint Value { get; set; } = 0;
+        }
 
         private static string RequestJSON(string p_url, string? p_api_key = null)
         {
@@ -42,14 +52,22 @@ namespace GW2_Wallet_Snapshots
             }
         }
 
-        public static GW2WalletSnapshot? GetWalletState(string p_api_key)
+        public static WalletSnapshot? GetWalletState(string p_api_key)
         {
             try
             {
                 string json = RequestJSON(_api_url_wallet, p_api_key);
 
-                GW2WalletSnapshot wallet = new();
-                wallet.Data = JsonSerializer.Deserialize<GW2WalletSnapshot.WalletData[]>(json)!;
+                GW2WalletCurrencyState[] wallet_state_array = JsonSerializer.Deserialize<GW2WalletCurrencyState[]>(json)!;
+                Dictionary<uint, uint> wallet_state_dictionary = new();
+
+                foreach (var currency in wallet_state_array)
+                {
+                    wallet_state_dictionary[currency.ID] = currency.Value;
+                }
+
+                WalletSnapshot wallet = new();
+                wallet.Data = wallet_state_dictionary;
                 wallet.Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 return wallet;
             }
