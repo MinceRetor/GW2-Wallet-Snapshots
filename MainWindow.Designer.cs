@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             FileDropDownButton = new ToolStripDropDownButton();
             FileNewButton = new ToolStripMenuItem();
@@ -40,6 +41,7 @@
             ViewDropDownButton = new ToolStripDropDownButton();
             ViewCurrenciesButton = new ToolStripMenuItem();
             CreateSnapshotButton = new ToolStripButton();
+            TimerLabel = new ToolStripLabel();
             WalletDataGridView = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
             Time = new DataGridViewTextBoxColumn();
@@ -50,6 +52,7 @@
             CurrencyValue = new DataGridViewTextBoxColumn();
             CurrencyChange = new DataGridViewTextBoxColumn();
             tableLayoutPanel1 = new TableLayoutPanel();
+            TimerSnapshot = new System.Windows.Forms.Timer(components);
             MainWindowToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)WalletDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SnapshotDetailsDataGridView).BeginInit();
@@ -113,7 +116,7 @@
             // 
             // MainWindowToolStrip
             // 
-            MainWindowToolStrip.Items.AddRange(new ToolStripItem[] { FileDropDownButton, EditDropDownButton, ViewDropDownButton, CreateSnapshotButton });
+            MainWindowToolStrip.Items.AddRange(new ToolStripItem[] { FileDropDownButton, EditDropDownButton, ViewDropDownButton, CreateSnapshotButton, TimerLabel });
             MainWindowToolStrip.Location = new Point(0, 0);
             MainWindowToolStrip.Name = "MainWindowToolStrip";
             MainWindowToolStrip.Size = new Size(984, 25);
@@ -148,6 +151,15 @@
             CreateSnapshotButton.Text = "Create Snapshot";
             CreateSnapshotButton.ToolTipText = "Create new snapshot.\r\n";
             CreateSnapshotButton.Click += CreateSnapshotButton_Click;
+            // 
+            // TimerLabel
+            // 
+            TimerLabel.Alignment = ToolStripItemAlignment.Right;
+            TimerLabel.ForeColor = Color.Red;
+            TimerLabel.Name = "TimerLabel";
+            TimerLabel.Size = new Size(37, 22);
+            TimerLabel.Text = "Timer";
+            TimerLabel.TextAlign = ContentAlignment.MiddleRight;
             // 
             // WalletDataGridView
             // 
@@ -262,6 +274,11 @@
             tableLayoutPanel1.Size = new Size(984, 436);
             tableLayoutPanel1.TabIndex = 4;
             // 
+            // TimerSnapshot
+            // 
+            TimerSnapshot.Interval = 1000;
+            TimerSnapshot.Tick += TimerSnapshot_Tick;
+            // 
             // MainWindow
             // 
             AllowDrop = true;
@@ -306,6 +323,8 @@
         private DataGridViewTextBoxColumn CurrencyName;
         private DataGridViewTextBoxColumn CurrencyValue;
         private DataGridViewTextBoxColumn CurrencyChange;
+        private ToolStripLabel TimerLabel;
+        private System.Windows.Forms.Timer TimerSnapshot;
     }
 }
 

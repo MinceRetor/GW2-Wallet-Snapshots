@@ -30,6 +30,8 @@ namespace GW2_Wallet_Snapshots
             public uint Value { get; set; } = 0;
         }
 
+        public static uint APICacheTime { get; } = 300;
+
         private static string RequestJSON(string p_url, string? p_api_key = null)
         {
             try
@@ -52,7 +54,26 @@ namespace GW2_Wallet_Snapshots
             }
         }
 
-        public static WalletSnapshot? GetWalletState(string p_api_key)
+        public static GW2Account? GetAccount(string p_api_key)
+        {
+            try
+            {
+                GW2Account account = JsonSerializer.Deserialize<GW2Account>(RequestJSON(_api_url_wallet, p_api_key))!;
+
+                if(account != null)
+                {
+                    account.APIKey = p_api_key;
+                }
+
+                return account;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static WalletSnapshot? GetWalletSnapshot(string p_api_key)
         {
             try
             {

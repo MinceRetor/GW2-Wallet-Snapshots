@@ -14,6 +14,7 @@ namespace GW2_Wallet_Snapshots
     {
         private static string _file_filter = "GW2 Wallet Snapshots File (*.gw2ws)|*.gw2ws";
         private static string _coin_format = "0# | ## | ##";
+        private static string _timer_format = "mm\\:ss";
 
         private EditConfigWindow? _edit_config_window = null;
         private CurrencyWindow? _view_currency_window = null;
@@ -24,6 +25,8 @@ namespace GW2_Wallet_Snapshots
             InitializeComponent();
 
             Utilities.EnableDoubleBufferingForDataGridView(SnapshotDetailsDataGridView);
+            TimerLabel.Text = "";
+            TimerSnapshot.Enabled = false;
         }
 
         private void LoadFile(string p_path)
@@ -66,7 +69,7 @@ namespace GW2_Wallet_Snapshots
 
             foreach (var snapshot in Program.Data.Snapshots)
             {
-                WalletDataGridView.Rows.Add(index, DateTimeOffset.FromUnixTimeSeconds(snapshot.Timestamp).DateTime, snapshot.Description);
+                WalletDataGridView.Rows.Add(index, DateTimeOffset.FromUnixTimeSeconds(snapshot.Timestamp).DateTime.ToLocalTime(), snapshot.Description);
                 index++;
             }
 
@@ -88,6 +91,7 @@ namespace GW2_Wallet_Snapshots
         private void CreateSnapshotButton_Click(object sender, EventArgs e)
         {
             int snapshot_count_before = Program.Data.Snapshots.Count;
+            CreateSnapshotButton.Enabled = false;
 
             _create_snapshot_window = new CreateSnapshotWindow();
             _create_snapshot_window.ShowDialog();
@@ -95,8 +99,13 @@ namespace GW2_Wallet_Snapshots
 
             if (Program.Data.Snapshots.Count > snapshot_count_before)
             {
-                WalletDataGridView.Rows.Add(WalletDataGridView.RowCount, DateTimeOffset.FromUnixTimeSeconds(Program.Data.Snapshots.Last().Timestamp).DateTime, Program.Data.Snapshots.Last().Description);
+                WalletDataGridView.Rows.Add(WalletDataGridView.RowCount, DateTimeOffset.FromUnixTimeSeconds(Program.Data.Snapshots.Last().Timestamp).DateTime.ToLocalTime(), Program.Data.Snapshots.Last().Description);
                 WalletDataGridView.Sort(WalletDataGridView.Columns[0], ListSortDirection.Descending);
+                TimerSnapshot.Enabled = true;
+            }
+            else
+            {
+                CreateSnapshotButton.Enabled = true;
             }
         }
 
@@ -132,7 +141,14 @@ namespace GW2_Wallet_Snapshots
                     continue;
                 }
 
-                int change = previous_snapshot != null ? (int)currency.Value - (int)previous_snapshot.Data[currency.Key] : 0;
+                int change = 0;
+
+                uint previous_value = 0;
+
+                if (previous_snapshot != null && previous_snapshot.Data.TryGetValue(currency.Key, out previous_value))
+                {
+                    change = (int)currency.Value - (int)previous_value;
+                }
 
 
                 string value_formatted = currency.Value.ToString(currency.Key == 1 ? _coin_format : "N0");
@@ -233,6 +249,24 @@ namespace GW2_Wallet_Snapshots
         private void SnapshotDetailsDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             SnapshotDetailsDataGridView.ClearSelection();
+        }
+
+        private void TimerSnapshot_Tick(object sender, EventArgs e)
+        {
+            if(Program.Data.Snapshots.Count > 0)
+            {
+                long api_cache_end_timestamp = Program.Data.Snapshots.Last().Timestamp + GW2API.APICacheTime;
+
+                if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < api_cache_end_timestamp)
+                {
+                    TimerLabel.Text = DateTime.UtcNow.Subtract(DateTimeOffset.FromUnixTimeSeconds(api_cache_end_timestamp).DateTime).ToString(_timer_format);
+                    return;
+                }
+            }
+
+            TimerLabel.Text = "";
+            TimerSnapshot.Enabled = false;
+            CreateSnapshotButton.Enabled = true;
         }
     }
 }

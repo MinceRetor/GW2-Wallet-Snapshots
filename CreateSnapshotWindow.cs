@@ -19,7 +19,7 @@ namespace GW2_Wallet_Snapshots
 
         private void CreateSnapshotButton_Click(object sender, EventArgs e)
         {
-            WalletSnapshot? snapshot = GW2API.GetWalletState(Program.Config.APIKey);
+            WalletSnapshot? snapshot = GW2API.GetWalletSnapshot(Program.Config.APIKey);
 
             if (snapshot == null)
             {
