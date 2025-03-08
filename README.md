@@ -27,7 +27,8 @@ Windows
 
 After creating a snapshot, you can notice that the "Create Snapshot" button becomes greyed out and a 5 minutes timer shows up on its left side. The reason is that guild wars 2 api cache results for requests for about 5 minutes, so even if you were to create a snapshot again, you will get the same result regardless if your wallet changed in-game.
 
-
+## Preview
+![gw2s-screenshot](https://github.com/user-attachments/assets/f4cddc85-3d19-4915-869a-38c7e51c1eca)
 
 ## TODO
 * Delete snapshots.
